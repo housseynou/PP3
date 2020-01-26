@@ -44,7 +44,7 @@ def cadre_jeu()
     mur = pygame.image.load(os.path.join('data', 'mur.png')).convert()
     mur = 30
     for ligne in nb_case:
-        ligne = nb_case[0]
+        
         x = mur * len(nb_case[0][0])
         y = mur * len(nb_case[0])
         for sprite in ligne:
