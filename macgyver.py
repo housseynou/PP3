@@ -20,37 +20,53 @@ macgyver = pygame.image.load(os.path.join('data', 'macGyver.png')).convert_alpha
 position = macgyver.get_rect()
 ecran.blit(macgyver, position)
 
-nb_sprite_x = 15
-nb_sprite_y = 15
-nb_case = [
-"oooomomommmommm",
-"ommooomoooooooo",
-"oomommoommomomo",
-"omooooommmomomo",
-"oommmmommomooom",
-"mooommoomommmoo",
-"momommmmooooomm",
-"momomoooommmomo",
-"ooommommomooomo",
-"mommooooomommmo",
-"mooommmmomoooom",
-"mmmomoooommmooo",
-"mooomommmmmmoom",
-"mommmomoooooooo",
-"mooooommmommmma",
-]
 
-def cadre_jeu()
-    mur = pygame.image.load(os.path.join('data', 'mur.png')).convert()
-    mur = 30
-    for ligne in nb_case:
-        
-        x = mur * len(nb_case[0][0])
-        y = mur * len(nb_case[0])
-        for sprite in ligne:
-            sprite = '\n'
-            if sprite == nb_case[0][m]:
-                ecran.blit(mur, (x, y))
+
+
+class zone:
+
+    MIN_POSITION = 0
+    MAX_POSITION = 450
+    LONG_MUR = 30
+    LARGE_MUR = 30
+    NBSPRITE_X = 15
+    NBSPRITE_Y = 15
+
+    nb_zone = [
+        "oooomomommmommm",
+        "ommooomoooooooo",
+        "oomommoommomomo",
+        "omooooommmomomo",
+        "oommmmommomooom",
+        "mooommoomommmoo",
+        "momommmmooooomm",
+        "momomoooommmomo",
+        "ooommommomooomo",
+        "mommooooomommmo",
+        "mooommmmomoooom",
+        "mmmomoooommmooo",
+        "mooomommmmmmoom",
+        "mommmomoooooooo",
+        "mooooommmommmma",
+    ]
+
+    def __init__(self, long, large):
+        self.long = long
+        self.large = large
+
+    def generer_zone(self):
+        for sprite in range(self.MIN_POSITION, self.MAX_POSITION, self.LARGE_MUR):
+            largsprite = self.LARGE_MUR
+            for colonne in range(self.MIN_POSITION, self.MAX_POSITION, self.LONG_MUR):
+                longsprite = self.LONG_MUR
+                posprite = [][]
+                zone_in = zone(LONG_MUR, LARGE_MUR)
+                self.nb_zone.append(zone_in)
+
+                mur = pygame.image.load(os.path.join('data', 'mur.png')).convert()
+                if self.position == nb_case[0][m]:
+                    ecran.blit(mur, (x, y))
+
 
 
 
@@ -83,7 +99,7 @@ def main():
     ecran.blit(macgyver, position)
     pygame.display.flip()
     self.macgyver()
-
+    ecran.blit(mur, (x, y))
 
 
 main()
