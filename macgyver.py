@@ -5,7 +5,6 @@
 whithout meeting the guardian'''
 
 import os
-import random
 import pygame
 from pygame.locals import *
 
@@ -14,16 +13,9 @@ pygame.init()
 ecran = pygame.display.set_mode((450, 450), RESIZABLE)
 
 background = pygame.image.load(os.path.join('data', 'fond.jpg')).convert()
-ecran.blit(background, (0,0))
 
 macgyver = pygame.image.load(os.path.join('data', 'macGyver.png')).convert_alpha()
 position = macgyver.get_rect()
-ecran.blit(macgyver, position)
-
-
-
-
-
 
 
 
@@ -45,13 +37,10 @@ nb_zone = [
         "mooooommmommmma",
     ]
 
-def __init__(self,):
-
-    long_mur = 30
-    large_mur = 30
 
 
-def generer_zone(self):
+
+def generer_zone():
     fenetre = []
     for ligne in nb_zone:
         zone = []
@@ -59,7 +48,7 @@ def generer_zone(self):
             zone.append(sprite)
         fenetre.append(ligne)
 
-def afficher_zone(self):
+def afficher_zone():
     mur = pygame.image.load(os.path.join('data', 'mur.png')).convert()
     num_ligne = 0
     for ligne in nb_zone:
@@ -75,19 +64,11 @@ def afficher_zone(self):
                 print(sprite)
 
 
+class deplacer:
+    def __init__(self, right, left, up, down):
+        mobilite = 3
+    def droite(self):
 
-
-
-
-
-def deplacer():
-    for event in pygame.event.get():
-        if event.type == KEYDOWN and event.key == K_RIGHT:
-            macgyver.position.move(3,0)
-
-
-
-pygame.display.flip()
 
 
 
@@ -96,17 +77,19 @@ pygame.display.flip()
 continuer = 1
 
 while continuer:
+    ecran.blit(background, (0, 0))
+    ecran.blit(macgyver, position)
+
     for event in pygame.event.get():
         if event.type == QUIT:
             continuer = 0
+        elif event.type == KEYDOWN and event.key == K_RIGHT:
+            print("doite")
+        elif event.type == KEYDOWN and event.key == K_LEFT:
+            print("gauche")
+        elif event.type == KEYDOWN and event.key == K_UP:
+            print("haut")
+        elif event.type == KEYDOWN and event.key == K_DOWN:
+            print("bas")
 
-
-
-def main():
-    ecran.blit(background, (0, 0))
-    ecran.blit(macgyver, position)
-    pygame.display.flip()
-    aire_jeux.afficher_zone()
-
-
-main()
+        pygame.display.flip()
