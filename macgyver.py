@@ -65,9 +65,21 @@ def afficher_zone():
 
 
 class deplacer:
-    def __init__(self, right, left, up, down):
-        mobilite = 3
-    def droite(self):
+    def __init__(self, mobility):
+        self.mobility = 3
+
+    def move_right(self):
+        if event.type == KEYDOWN and event.key == K_RIGHT:
+            self.position.x += self.mobility
+    def move_left(self):
+        if event.type == KEYDOWN and event.key == K_LEFT:
+            self.position.x -= mobility
+    def move_up(self):
+        if event.type == KEYDOWN and event.key == K_UP:
+            self.position.y += mobility
+    def move_down(self):
+        if event.type == KEYDOWN and event.key == K_DOWN:
+            self.position.y -+ mobility
 
 
 
@@ -84,12 +96,12 @@ while continuer:
         if event.type == QUIT:
             continuer = 0
         elif event.type == KEYDOWN and event.key == K_RIGHT:
-            print("doite")
+            deplacer.move_right()
         elif event.type == KEYDOWN and event.key == K_LEFT:
-            print("gauche")
+            deplacer.move_left()
         elif event.type == KEYDOWN and event.key == K_UP:
-            print("haut")
+            deplacer.move_up()
         elif event.type == KEYDOWN and event.key == K_DOWN:
-            print("bas")
+            deplacer.move_down()
 
         pygame.display.flip()
