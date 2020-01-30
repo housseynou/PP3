@@ -14,8 +14,6 @@ ecran = pygame.display.set_mode((450, 450), RESIZABLE)
 
 background = pygame.image.load(os.path.join('data', 'fond.jpg')).convert()
 
-macgyver = pygame.image.load(os.path.join('data', 'macGyver.png')).convert_alpha()
-position = macgyver.get_rect()
 
 
 
@@ -64,8 +62,11 @@ def afficher_zone():
                 print(sprite)
 
 
-class deplacer:
-    def __init__(self, mobility):
+class Macgyver(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.player = pygame.image.load(os.path.join('data', 'macGyver.png')).convert_alpha()
+        self.position = self.player.get_rect()
         self.mobility = 3
 
     def move_right(self):
@@ -73,35 +74,35 @@ class deplacer:
             self.position.x += self.mobility
     def move_left(self):
         if event.type == KEYDOWN and event.key == K_LEFT:
-            self.position.x -= mobility
+            self.position.x -= self.mobility
     def move_up(self):
         if event.type == KEYDOWN and event.key == K_UP:
-            self.position.y += mobility
+            self.position.y -= self.mobility
     def move_down(self):
         if event.type == KEYDOWN and event.key == K_DOWN:
-            self.position.y -+ mobility
+            self.position.y += self.mobility
 
 
 
-
+macgyver = Macgyver()
 
 
 continuer = 1
 
 while continuer:
     ecran.blit(background, (0, 0))
-    ecran.blit(macgyver, position)
+    ecran.blit(macgyver.player, macgyver.position)
 
     for event in pygame.event.get():
         if event.type == QUIT:
             continuer = 0
         elif event.type == KEYDOWN and event.key == K_RIGHT:
-            deplacer.move_right()
+            macgyver.move_right()
         elif event.type == KEYDOWN and event.key == K_LEFT:
-            deplacer.move_left()
+            macgyver.move_left()
         elif event.type == KEYDOWN and event.key == K_UP:
-            deplacer.move_up()
+            macgyver.move_up()
         elif event.type == KEYDOWN and event.key == K_DOWN:
-            deplacer.move_down()
+            macgyver.move_down()
 
         pygame.display.flip()
