@@ -74,7 +74,7 @@ class Surface(pygame.sprite.Sprite):
                 zone += 1
             ligne += 1
 
-surface = Surface()
+
 
 
 class Macgyver(pygame.sprite.Sprite):
@@ -83,24 +83,37 @@ class Macgyver(pygame.sprite.Sprite):
         self.player = pygame.image.load("data/macGyver.png").convert_alpha()
         self.position = self.player.get_rect()
         self.mobility = 5
+        self.npiste = 0
+        self.nsprite = 0
+        self.taille_mur = 30
+        self.x = 0
+        self.y = 0
+        self.surface = surface
         self.fast = {}
 
     def move_right(self):
         if event.type == KEYDOWN and event.key == K_RIGHT:
-            self.position.x += self.mobility
+            if self.surface.cadrejeux[self.nsprite][self.npiste] != 'm':
+                self.position.x += self.mobility
+                self.x = self.npiste * self.taille_mur
+
     def move_left(self):
         if event.type == KEYDOWN and event.key == K_LEFT:
-            self.position.x -= self.mobility
+            if self.surface.cadrejeux[self.nsprite][self.npiste] != 'm':
+                self.position.x -= self.mobility
     def move_up(self):
         if event.type == KEYDOWN and event.key == K_UP:
-            self.position.y -= self.mobility
+            if self.surface.cadrejeux[self.nsprite][self.npiste] != 'm':
+                self.position.y -= self.mobility
     def move_down(self):
         if event.type == KEYDOWN and event.key == K_DOWN:
-            self.position.y += self.mobility
+            if self.surface.cadrejeux[self.nsprite][self.npiste] != 'm':
+                self.position.y += self.mobility
 
 
-
+surface = Surface()
 macgyver = Macgyver()
+surface.generer_zone()
 
 
 continuer = 1
@@ -109,12 +122,15 @@ while continuer:
     ecran.blit(background, (0, 0))
     surface.afficher_zone()
     ecran.blit(macgyver.player, macgyver.position)
-    npiste = 0
-    nsprite = 0
+
 
     print(macgyver.position)
     # chargement de la page
     pygame.display.flip()
+
+    if macgyver.position == 'm'
+        print("BRAVO! VOUS AVEZ GAGNÉ")
+        continuer = 0
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -126,15 +142,14 @@ while continuer:
             macgyver.fast[event.key] = False
 
 # fludifier les mouvements du joueur et eviter qu'il sorte du cadre
-    if surface.cadrejeux[npiste][nsprite] != 'm':
-        if macgyver.fast.get(pygame.K_RIGHT) and macgyver.position.x >= 0:
-            macgyver.move_right()
-        elif macgyver.fast.get(pygame.K_LEFT) and macgyver.position.x <= 430:
-            macgyver.move_left()
-        elif macgyver.fast.get(pygame.K_UP) and macgyver.position.y >= 0:
-            macgyver.move_up()
-        elif macgyver.fast.get(pygame.K_DOWN) and macgyver.position.y <= 430:
-            macgyver.move_down()
+    if macgyver.fast.get(pygame.K_RIGHT) and macgyver.position.x < 430:
+        macgyver.move_right()
+    elif macgyver.fast.get(pygame.K_LEFT) and macgyver.position.x > 0:
+        macgyver.move_left()
+    elif macgyver.fast.get(pygame.K_UP) and macgyver.position.y > 0:
+        macgyver.move_up()
+    elif macgyver.fast.get(pygame.K_DOWN) and macgyver.position.y < 420:
+        macgyver.move_down()
 
 
 
