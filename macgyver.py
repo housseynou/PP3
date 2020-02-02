@@ -1,10 +1,9 @@
 #! user/bin/env/ python3
 # coding: utf-8
 
-'''A game about helping macgiver to find his way out the labyrinthe
-whithout meeting the guardian'''
+"""A game about helping macgiver to find his way out the labyrinthe
+whithout meeting the guardian"""
 
-import os
 import pygame
 from pygame.locals import *
 
@@ -87,9 +86,8 @@ class Macgyver(pygame.sprite.Sprite):
         self.fast = {}
 
     def move_right(self):
-        for event in pygame.event.get():
-            if event.type == KEYDOWN and event.key == K_RIGHT:
-                self.position.x += self.mobility
+        if event.type == KEYDOWN and event.key == K_RIGHT:
+            self.position.x += self.mobility
     def move_left(self):
         if event.type == KEYDOWN and event.key == K_LEFT:
             self.position.x -= self.mobility
@@ -109,29 +107,38 @@ continuer = 1
 
 while continuer:
     ecran.blit(background, (0, 0))
-    ecran.blit(macgyver.player, macgyver.position)
     surface.afficher_zone()
+    ecran.blit(macgyver.player, macgyver.position)
+    npiste = 0
+    nsprite = 0
 
+    print(macgyver.position)
     # chargement de la page
     pygame.display.flip()
-
-# fludifier les mouvements du joueur et eviter qu'il sorte du cadre
-    if macgyver.fast.get(pygame.K_RIGHT):
-        macgyver.move_right()
-    elif macgyver.fast.get(pygame.K_LEFT):
-        macgyver.move_left()
-    elif macgyver.fast.get(pygame.K_UP):
-        macgyver.move_up()
-    elif macgyver.fast.get(pygame.K_DOWN):
-        macgyver.move_down()
-
 
     for event in pygame.event.get():
         if event.type == QUIT:
             continuer = 0
+
         elif event.type == KEYDOWN:
             macgyver.fast[event.key] = True
         elif event.type == KEYUP:
             macgyver.fast[event.key] = False
+
+# fludifier les mouvements du joueur et eviter qu'il sorte du cadre
+    if surface.cadrejeux[npiste][nsprite] != 'm':
+        if macgyver.fast.get(pygame.K_RIGHT) and macgyver.position.x >= 0:
+            macgyver.move_right()
+        elif macgyver.fast.get(pygame.K_LEFT) and macgyver.position.x <= 430:
+            macgyver.move_left()
+        elif macgyver.fast.get(pygame.K_UP) and macgyver.position.y >= 0:
+            macgyver.move_up()
+        elif macgyver.fast.get(pygame.K_DOWN) and macgyver.position.y <= 430:
+            macgyver.move_down()
+
+
+
+
+
 
 
