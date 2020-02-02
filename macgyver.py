@@ -10,9 +10,9 @@ from pygame.locals import *
 
 pygame.init()
 
-ecran = pygame.display.set_mode((450, 450), RESIZABLE)
+ecran = pygame.display.set_mode((450, 450))
 
-background = pygame.image.load(os.path.join('data', 'fond.jpg')).convert()
+background = pygame.image.load("data/fond.jpg").convert()
 
 
 
@@ -40,34 +40,40 @@ class Surface(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self.mur = pygame.image.load(os.path.join('data', 'mur.png')).convert()
-        self.long_mur = 30
-        self.large_mur = 30
+        self.taille_mur = 30
+        self.nbsprite = 15
+        self.cadrejeux = nb_zone
 
     def generer_zone(self):
-        self.fenetre = nb_zone
-        for ligne in nb_zone:
-            self.zone = []
-            for sprite in ligne:
-                self.zone.append(sprite)
-            self.fenetre.append(ligne)
+        fenetre = []
+        for piste in nb_zone:
+            num_piste = []
+            for zone in num_piste:
+                num_piste.append(zone)
+            fenetre.append(piste)
+        self.cadrejeux = fenetre
+
+
+
 
 
     def afficher_zone(self):
 
-        num_ligne = 0
-        for ligne in nb_zone:
-            num_zone = 0
-            for sprite in ligne:
-                x = num_ligne * self.large_mur
-                y = num_zone * self.long_mur
+        ligne = 0
+        for piste in self.cadrejeux:
+            zone = 0
+            for sprite in piste:
+                mur = pygame.image.load("data/mur.png").convert()
+                arrive = pygame.image.load("data/arrive.png").convert()
+                x = ligne * self.taille_mur
+                y = zone * self.taille_mur
 
                 if sprite == 'm':
                     ecran.blit(mur, (x, y))
                 elif sprite == 'a':
                     ecran.blit(arrive, (x,y))
-                num_zone += 1
-            num_ligne += 1
+                zone += 1
+            ligne += 1
 
 surface = Surface()
 
@@ -75,7 +81,7 @@ surface = Surface()
 class Macgyver(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.player = pygame.image.load(os.path.join('data', 'macGyver.png')).convert_alpha()
+        self.player = pygame.image.load("data/macGyver.png").convert_alpha()
         self.position = self.player.get_rect()
         self.mobility = 5
         self.fast = {}
@@ -104,16 +110,19 @@ continuer = 1
 while continuer:
     ecran.blit(background, (0, 0))
     ecran.blit(macgyver.player, macgyver.position)
+    surface.afficher_zone()
+
+    # chargement de la page
+    pygame.display.flip()
 
 # fludifier les mouvements du joueur et eviter qu'il sorte du cadre
-
-    if macgyver.fast.get(pygame.K_RIGHT) and macgyver.position.x < 450:
+    if macgyver.fast.get(pygame.K_RIGHT):
         macgyver.move_right()
-    elif macgyver.fast.get(pygame.K_LEFT) and macgyver.position.x > 0:
+    elif macgyver.fast.get(pygame.K_LEFT):
         macgyver.move_left()
-    elif macgyver.fast.get(pygame.K_UP) and macgyver.position.y > 0:
+    elif macgyver.fast.get(pygame.K_UP):
         macgyver.move_up()
-    elif macgyver.fast.get(pygame.K_DOWN) and macgyver.position.y < 450:
+    elif macgyver.fast.get(pygame.K_DOWN):
         macgyver.move_down()
 
 
@@ -124,7 +133,5 @@ while continuer:
             macgyver.fast[event.key] = True
         elif event.type == KEYUP:
             macgyver.fast[event.key] = False
-        print(macgyver.fast)
-# chargement de la page
 
-        pygame.display.flip()
+
