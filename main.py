@@ -70,9 +70,7 @@ class Macgyver(pygame.sprite.Sprite):
         self.player = pygame.image.load("data/macGyver.png").convert_alpha()
         self.position = self.player.get_rect()
         self.speed = 10
-        self.fast = {}
-        self.wall = []
-        self.way = []
+
         self.piste_y = 0
         self.zone_x = 0
         self.all_zone_x = 15
@@ -83,9 +81,8 @@ class Macgyver(pygame.sprite.Sprite):
     def move_right(self):
         if event.type == KEYDOWN and event.key == K_RIGHT:
             if macgyver.position.x < 430:
-                if self.surface.cadrejeux[self.piste_y][self.zone_x + 1] != 'm':
-                    self.zone_x += 1
-                    macgyver.position.x = self.zone_x * taille_mur
+                if self.surface.cadrejeux[self.position.y][self.position.x + 10] != 'm':
+                    self.position.x += self.speed
 
 
 
