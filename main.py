@@ -6,7 +6,6 @@ whithout meeting the guardian"""
 
 import pygame
 from pygame.locals import *
-from aire import *
 
 pygame.init()
 ecran = pygame.display.set_mode((450, 450))
@@ -52,8 +51,8 @@ class Surface:
         for piste in self.cadrejeux:
             zone = 0
             for sprite in piste:
-                x = ligne * taille_mur
-                y = zone * taille_mur
+                y = ligne * taille_mur
+                x = zone * taille_mur
                 if sprite == 'm':
                     ecran.blit(mur, (x, y))
                 elif sprite == 'a':
@@ -73,7 +72,7 @@ class Macgyver(pygame.sprite.Sprite):
         self.speed = 10
         self.fast = {}
         self.wall = []
-
+        self.way = []
         self.piste_y = 0
         self.zone_x = 0
         self.all_zone_x = 15
@@ -83,39 +82,34 @@ class Macgyver(pygame.sprite.Sprite):
 
     def move_right(self):
         if event.type == KEYDOWN and event.key == K_RIGHT:
-            for y in range(len(nb_zone)):
-                for x in range(len(nb_zone[y])):
-                    self.zone = nb_zone[y][x]
-                    self.zone_x = nb_zone.index(self.zone) * taille_mur
-                    self.piste_y = nb_zone.index(self.zone) * taille_mur
-                    if self.zone_x == 'm':
-                        self.wall.append((self.zone_x, self.piste_y))
-                        if macgyver.position.x + 1 not in self.wall:
-                            macgyver.position.x += self.speed
+            if macgyver.position.x < 430:
+                if self.surface.cadrejeux[self.piste_y][self.zone_x + 1] != 'm':
+                    self.zone_x += 1
+                    macgyver.position.x = self.zone_x * taille_mur
+
 
 
 
     def move_left(self):
         if event.type == KEYDOWN and event.key == K_LEFT:
-            if macgyver.position.x > 0:
-                if self.surface.cadrejeux[self.piste][self.zone - 1] != 'm':
-                    self.zone -= 1
-                    self.position.x = self.zone * taille_mur
-                    macgyver.position.x += self.speed
+            if self.surface.cadrejeux[self.piste_y][self.zone_x - 1] != 'm':
+                self.zone_x -= 1
+                macgyver.position.x = self.zone_x * taille_mur
+
     def move_up(self):
         if event.type == KEYDOWN and event.key == K_UP:
-            if macgyver.position.y > 0:
-                if self.surface.cadrejeux[self.piste - 1][self.zone] != 'm':
-                    self.piste -= 1
-                    self.position.y = self.zone * taille_mur
-                    macgyver.position.y -= self.speed
+            if self.surface.cadrejeux[self.piste_y - 1][self.zone_x] != 'm':
+                self.piste_y -= 1
+                macgyver.position.y = self.piste_y * taille_mur
+
     def move_down(self):
         if event.type == KEYDOWN and event.key == K_DOWN:
-            if macgyver.position.y < 420:
-                if self.surface.cadrejeux[self.piste + 1][self.zone] != 'm':
-                    self.piste += 1
-                    self.position.y = self.zone * taille_mur
-                    macgyver.position.y += self.speed
+            if self.surface.cadrejeux[self.piste_y + 1][self.zone_x] != 'm':
+                self.piste_y += 1
+                macgyver.position.y = self.piste_y * taille_mur
+                macgyver.position.y += self.speed
+
+
 macgyver = Macgyver()
 
 class toucher:
@@ -137,34 +131,30 @@ while continuer:
     ecran.blit(macgyver.player, macgyver.position)
 
 
-     # chargement de la page
-
+    # chargement de la page
+    pygame.display.flip()
 
     for event in pygame.event.get():
         if event.type == QUIT:
             continuer = 0
 
-        elif event.type == KEYDOWN:
-            macgyver.fast[event.key] = True
-            if macgyver.fast.get(pygame.K_RIGHT):
+    key = pygame.key.get_pressed()
 
-                macgyver.move_right()
-            elif macgyver.fast.get(pygame.K_LEFT):
-
-                macgyver.move_left()
-            elif macgyver.fast.get(pygame.K_UP):
-
-                macgyver.move_up()
-            elif macgyver.fast.get(pygame.K_DOWN):
-                macgyver.move_down()
+    if key[pygame.K_RIGHT]:
+        macgyver.move_right()
+    elif key[pygame.K_LEFT]:
+        macgyver.move_left()
+    elif key[pygame.K_UP]:
+        macgyver.move_up()
+    elif key[pygame.K_DOWN]:
+        macgyver.move_down()
 
 
-        elif event.type == KEYUP:
-            macgyver.fast[event.key] = False
 
-        print(macgyver.position)
 
-    pygame.display.flip()
+    print(macgyver.position)
+
+
 
 
 
