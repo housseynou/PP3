@@ -56,7 +56,7 @@ class Surface:
                 if sprite == 'm':
                     ecran.blit(mur, (x, y))
                 elif sprite == 'a':
-                    ecran.blit(arrive, (x,y))
+                    ecran.blit(arrive, (x, y))
                 zone += 1
             ligne += 1
 
@@ -69,8 +69,8 @@ class Macgyver(pygame.sprite.Sprite):
         pygame.sprite.Sprite().__init__()
         self.player = pygame.image.load("data/macGyver.png").convert_alpha()
         self.position = self.player.get_rect()
-        self.speed = 10
 
+        self.speed = 10
         self.piste_y = 0
         self.zone_x = 0
         self.all_zone_x = 15
@@ -80,31 +80,38 @@ class Macgyver(pygame.sprite.Sprite):
 
     def move_right(self):
         if event.type == KEYDOWN and event.key == K_RIGHT:
-            if macgyver.position.x < 430:
-                if self.surface.cadrejeux[self.position.y][self.position.x + 10] != 'm':
-                    self.position.x += self.speed
+            if self.zone_x < (self.all_zone_x - 1):
+                if self.surface.cadrejeux[self.piste_y][self.zone_x + 1] != 'm':
+                    self.zone_x += 1
+                    self.position.x = self.zone_x * taille_mur
+
 
 
 
 
     def move_left(self):
         if event.type == KEYDOWN and event.key == K_LEFT:
-            if self.surface.cadrejeux[self.piste_y][self.zone_x - 1] != 'm':
-                self.zone_x -= 1
-                macgyver.position.x = self.zone_x * taille_mur
+            if self.zone_x > 0:
+                if self.surface.cadrejeux[self.piste_y][self.zone_x - 1] != 'm':
+                    self.zone_x -= 1
+                    self.position.x = self.zone_x * taille_mur
+
 
     def move_up(self):
         if event.type == KEYDOWN and event.key == K_UP:
-            if self.surface.cadrejeux[self.piste_y - 1][self.zone_x] != 'm':
-                self.piste_y -= 1
-                macgyver.position.y = self.piste_y * taille_mur
+            if self.piste_y > 0:
+                if self.surface.cadrejeux[self.piste_y - 1][self.zone_x] != 'm':
+                    self.piste_y -= 1
+                    self.position.y = self.zone_x * taille_mur
+
 
     def move_down(self):
         if event.type == KEYDOWN and event.key == K_DOWN:
-            if self.surface.cadrejeux[self.piste_y + 1][self.zone_x] != 'm':
-                self.piste_y += 1
-                macgyver.position.y = self.piste_y * taille_mur
-                macgyver.position.y += self.speed
+            if self.piste_y < (self.all_zone_x - 1):
+                if self.surface.cadrejeux[self.piste_y + 1][self.zone_x] != 'm':
+                    self.piste_y += 1
+                    self.position.y = self.zone_x * taille_mur
+
 
 
 macgyver = Macgyver()
